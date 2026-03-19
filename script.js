@@ -1,9 +1,11 @@
 const input = document.querySelector("#input input");
 const tasksDiv = document.querySelector("#tasks-div");
+const logo = document.querySelector("#logo");
+let tasksBackup = JSON.parse(localStorage.getItem("tasks"))|| [];
+tasksBackup.forEach(oneTask => createTask(oneTask));
 
-
-function createTask() {
-  const taskCard = document.createElement('div');
+function createTask(oneTask) {
+  const taskCard = document.createElement('li');
   taskCard.classList.add('task-card');
   tasksDiv.appendChild(taskCard);
 
@@ -21,7 +23,7 @@ function createTask() {
   });
 
   const task = document.createElement('p');
-  task.textContent = input.value;
+  task.textContent = oneTask;
   taskCard.appendChild(task);
   input.value = "";
 
@@ -32,6 +34,14 @@ function createTask() {
   deleteTask.addEventListener('click', function(){
     taskCard.classList.add('dissapear');
     taskCard.addEventListener('animationend', function(){
+      const newArray = [];
+      tasksBackup.forEach(function(t){
+        if (t != oneTask) {
+          newArray.push(t);
+        }
+      });
+      tasksBackup = newArray;
+      localStorage.setItem("tasks", JSON.stringify(tasksBackup));
       taskCard.remove();
     });
   });
@@ -39,6 +49,14 @@ function createTask() {
 
 input.addEventListener('keydown', function(event){
   if(event.key === 'Enter'){
-    createTask();
+    const value = input.value.trim();
+    if (value === "") return;
+    tasksBackup.push(value);
+    localStorage.setItem("tasks", JSON.stringify(tasksBackup));
+    createTask(value);
   }
 });
+
+logo.addEventListener('click', function(){
+  location.reload();
+})
