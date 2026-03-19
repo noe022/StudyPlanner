@@ -1,8 +1,22 @@
 const input = document.querySelector("#input input");
 const tasksDiv = document.querySelector("#tasks-div");
 const logo = document.querySelector("#logo");
+const ProgressBar = document.querySelector("#progress-bar");
 let tasksBackup = JSON.parse(localStorage.getItem("tasks"))|| [];
 tasksBackup.forEach(oneTask => createTask(oneTask));
+let firstEnter = tasksBackup.length > 0;
+
+function TaskCardRemove(oneTask, taskCard){
+  const copyArray = [];
+  tasksBackup.forEach(function(t){
+    if (t.text !== oneTask.text) {
+      copyArray.push(t);
+    }
+  });
+  tasksBackup = copyArray;
+  localStorage.setItem("tasks", JSON.stringify(tasksBackup));
+  taskCard.remove();
+}
 
 function createTask(oneTask) {
   if (oneTask.text.trim() === "") return;
@@ -38,20 +52,19 @@ function createTask(oneTask) {
   deleteTask.classList.add('delete-task');
   deleteTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#99dbff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>'
   deleteTask.addEventListener('click', function(){
-    taskCard.classList.add('dissapear');
-    taskCard.addEventListener('animationend', function(){
-      const copyArray = [];
-      tasksBackup.forEach(function(t){
-        if (t.text !== oneTask.text) {
-          copyArray.push(t);
-        }
-      });
-      tasksBackup = copyArray;
-      localStorage.setItem("tasks", JSON.stringify(tasksBackup));
-      taskCard.remove();
-    });
+
+    if (tasksBackup.length === 1) {
+      ProgressBar.style.display = "none";
+      firstEnter = false;
+    }
+    TaskCardRemove(oneTask, taskCard);
   });
   taskCard.appendChild(deleteTask);
+}
+
+
+if (firstEnter) {
+  ProgressBar.style.display = "flex";
 }
 
 input.addEventListener('keydown', function(event){
@@ -63,6 +76,10 @@ input.addEventListener('keydown', function(event){
     localStorage.setItem("tasks", JSON.stringify(tasksBackup));
     createTask(valueBool);
     input.value = "";
+    if(!firstEnter) {
+      ProgressBar.style.display = "flex";
+    }
+    firstEnter = true;
   }
 });
 

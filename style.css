@@ -22,6 +22,12 @@ body{
   margin: 0 2em;
 }
 
+#main-content {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto 0;
+}
+
 #logo{
   padding-top: 1em;
   padding-left: 1em;
@@ -33,7 +39,6 @@ body{
 }
 
 #input {
-  margin-top: 2.5em;
   display: flex;
   justify-content: center;
 }
@@ -58,10 +63,14 @@ body{
   opacity: 0.7;
 }
 
-#main-content {
+#progress-bar {
+  margin-top: 2em;
   width: 100%;
-  max-width: 500px;
-  margin: 2.5em auto 0;
+  height: 30px;
+  background-color: #d0d0d0;
+  border-radius: 1em;
+  display: none;
+  /* animation: appear 0.5s ease; */
 }
 
 .button{
@@ -110,7 +119,7 @@ body{
   background-color: var(--color-icy-blue-50);
   border: 1.5px solid var(--color-icy-blue-200);
   border-radius: 0.75em;
-  animation: appear 0.5s ease;
+  /* animation: appear 0.5s ease; */
 }
 
 .task-card p {
@@ -126,10 +135,10 @@ body{
   align-items: center;
 }
 
-.dissapear{
+/* #progress-bar.dissapear, .dissapear{
   animation: delete 0.5s ease;
-}
-
+} */
+/* 
 @keyframes appear {
   from {
     opacity: 0;
@@ -150,4 +159,4 @@ body{
     opacity: 0;
     transform: translateY(10px);
   }
-}
+} */
