@@ -1,3 +1,11 @@
+/* 
+  Task Manager with Categories & Views
+
+  @author Noelia Pérez Mojica
+  @version 0.3
+  @date 18/03/2026
+*/
+
 *{
   margin: 0;
   padding: 0;
@@ -70,7 +78,6 @@ body{
   background-color: #d0d0d0;
   border-radius: 1em;
   display: none;
-  /* animation: appear 0.5s ease; */
 }
 
 .button{
@@ -119,7 +126,6 @@ body{
   background-color: var(--color-icy-blue-50);
   border: 1.5px solid var(--color-icy-blue-200);
   border-radius: 0.75em;
-  /* animation: appear 0.5s ease; */
 }
 
 .task-card p {
@@ -134,29 +140,3 @@ body{
   display: flex;
   align-items: center;
 }
-
-/* #progress-bar.dissapear, .dissapear{
-  animation: delete 0.5s ease;
-} */
-/* 
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes delete {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-} */

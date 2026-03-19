@@ -1,3 +1,11 @@
+/**
+ * Task Manager with Categories & Views
+ * 
+ * @author Noelia Pérez Mojica
+ * @version 0.3
+ * @date 18/03/2026
+*/
+
 const input = document.querySelector("#input input");
 const tasksDiv = document.querySelector("#tasks-div");
 const logo = document.querySelector("#logo");
@@ -66,7 +74,6 @@ function createTask(oneTask) {
 if (firstEnter) {
   ProgressBar.style.display = "flex";
 }
-
 input.addEventListener('keydown', function(event){
   if(event.key === 'Enter'){
     const value = input.value.trim();
