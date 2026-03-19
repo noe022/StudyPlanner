@@ -1,0 +1,153 @@
+*{
+  margin: 0;
+  padding: 0;
+}
+
+:root{
+  --color-icy-blue-50: #e5f6ff;
+  --color-icy-blue-100: #ccedff;
+  --color-icy-blue-200: #99dbff;
+  --color-icy-blue-300: #66c9ff;
+  --color-icy-blue-400: #33b8ff;
+  --color-icy-blue-500: #00a6ff;
+  --color-icy-blue-600: #0085cc;
+  --color-icy-blue-700: #006399;
+  --color-icy-blue-800: #004266;
+  --color-icy-blue-900: #002133;
+  --color-icy-blue-950: #001724;
+}
+
+body{
+  font-family: "Inter";
+  margin: 0 2em;
+}
+
+#logo{
+  padding-top: 1em;
+  padding-left: 1em;
+  font-family: "Poppins";
+  font-weight: 600;
+  font-size: 25px;
+  height: 50px;
+  color: var(--color-icy-blue-600);
+}
+
+#input {
+  margin-top: 2.5em;
+  display: flex;
+  justify-content: center;
+}
+
+#input input {
+  height: 45px;
+  max-width: 500px;
+  width: 100%;
+  padding-left: 1em;
+  background-color: var(--color-icy-blue-50);
+  color: var(--color-icy-blue-600);
+  font-weight: 600;
+  border: 1.5px solid var(--color-icy-blue-500);
+  border-radius: 0.75em;
+}
+
+#input input:focus {
+  outline: 2px, solid var(--color-icy-blue-500);
+}
+
+#input input::placeholder {
+  opacity: 0.7;
+}
+
+#main-content {
+  width: 100%;
+  max-width: 500px;
+  margin: 2.5em auto 0;
+}
+
+.button{
+  height: 16px;
+  width: 16px;
+  padding: 0.4em;
+  background-color: var(--color-icy-blue-50);
+  border: 1.5px solid var(--color-icy-blue-200);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.button.done::before,
+.button.done::after {
+  content: "";
+  position: absolute;
+  width: 150%;
+  height: 1.75px;
+  background-color: var(--color-icy-blue-200);
+  top: 50%;
+  left: 50%;
+}
+
+.button.done::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.button.done::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+#tasks-div {
+  margin-top: 2em;
+}
+
+.task-card {
+  margin-bottom: 1.5em;
+  padding-left: 1em;
+  height: 50px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  font-size: 15px;
+  background-color: var(--color-icy-blue-50);
+  border: 1.5px solid var(--color-icy-blue-200);
+  border-radius: 0.75em;
+  animation: appear 0.5s ease;
+}
+
+.task-card p {
+  padding-left: 0.75em;
+  font-weight: 600;
+}
+
+.delete-task {
+  padding-right: 1em;
+  margin-left: auto;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.dissapear{
+  animation: delete 0.5s ease;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes delete {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
