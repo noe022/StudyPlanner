@@ -26,50 +26,55 @@ function TaskCardRemove(oneTask, taskCard){
   taskCard.remove();
 }
 
-function createTask(oneTask) {
-  if (oneTask.text.trim() === "") return;
-  const taskCard = document.createElement('li');
-  taskCard.classList.add('task-card');
-  tasksDiv.appendChild(taskCard);
-
+function createButton(oneTask, task) {
   const button = document.createElement('button');
   button.classList.add('button');
-  button.addEventListener('click', function(){
+  button.addEventListener('click', function() {
     oneTask.done = !oneTask.done;
     localStorage.setItem("tasks", JSON.stringify(tasksBackup));
-    if (oneTask.done) {
-      task.style.textDecoration = "line-through";
-      button.classList.add('done');
-    } else {
-      task.style.textDecoration = "none";
-      button.classList.remove('done');
-    }
+    task.style.textDecoration = oneTask.done ? "line-through" : "none";
+    button.classList.toggle('done', oneTask.done);
   });
-  taskCard.appendChild(button);
+  if (oneTask.done) button.classList.add('done');
+  return button;
+}
 
+function createTaskText(oneTask) {
   const task = document.createElement('p');
   task.textContent = oneTask.text;
-  taskCard.appendChild(task);
+  if (oneTask.done) task.style.textDecoration = "line-through";
+  return task;
+}
 
-  if(oneTask.done) {
-    task.style.textDecoration = "line-through";
-    button.classList.add('done');
-  }
-
+function createDeleteButton(oneTask, taskCard) {
   const deleteTask = document.createElement('div');
   deleteTask.classList.add('delete-task');
-  deleteTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#99dbff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>'
-  deleteTask.addEventListener('click', function(){
-
+  deleteTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#99dbff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>';
+  deleteTask.addEventListener('click', function() {
     if (tasksBackup.length === 1) {
       ProgressBar.style.display = "none";
       firstEnter = false;
     }
     TaskCardRemove(oneTask, taskCard);
   });
-  taskCard.appendChild(deleteTask);
+  return deleteTask;
 }
 
+function createTask(oneTask) {
+  if (oneTask.text.trim() === "") return;
+
+  const taskCard = document.createElement('li');
+  taskCard.classList.add('task-card');
+
+  const task = createTaskText(oneTask);
+  const button = createButton(oneTask,task);
+  const deleteTask = createDeleteButton(oneTask, taskCard);
+
+  taskCard.appendChild(button);
+  taskCard.appendChild(task);
+  taskCard.appendChild(deleteTask);
+  tasksDiv.appendChild(taskCard);
+}
 
 if (firstEnter) {
   ProgressBar.style.display = "flex";
