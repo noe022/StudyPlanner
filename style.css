@@ -32,7 +32,7 @@ body{
 
 #main-content {
   width: 100%;
-  max-width: 500px;
+  max-width: 600px;
   margin: 0 auto 0;
 }
 
@@ -46,14 +46,27 @@ body{
   color: var(--color-icy-blue-600);
 }
 
+#categories {
+  margin-top: 1em;
+  height: 35px;
+  width: 60px;
+  border-radius: 2em;
+  border: 2px, solid rgb(177, 177, 177);
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 #input {
   display: flex;
   justify-content: center;
+  margin-top: 1em;
 }
 
 #input input {
   height: 45px;
-  max-width: 500px;
+  max-width: 600px;
   width: 100%;
   padding-left: 1em;
   background-color: var(--color-icy-blue-50);
