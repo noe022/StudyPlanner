@@ -13,6 +13,10 @@ const ProgressBar = document.querySelector("#progress-bar");
 let tasksBackup = JSON.parse(localStorage.getItem("tasks"))|| [];
 tasksBackup.forEach(oneTask => createTask(oneTask));
 let firstEnter = tasksBackup.length > 0;
+const categories = document.querySelector("#categories");
+const addTask = document.querySelector("#add-task"); 
+let subjectInput = document.querySelector("#subject-input");
+
 
 function TaskCardRemove(oneTask, taskCard){
   const copyArray = [];
@@ -97,4 +101,15 @@ input.addEventListener('keydown', function(event){
 
 logo.addEventListener('click', function(){
   location.reload();
-})
+});
+
+let isClicked = false;
+addTask.addEventListener('click', function(){
+  if (!isClicked) {
+    subjectInput.style.display = "flex";
+    isClicked = !isClicked;
+  } else {
+    subjectInput.style.display = "none";
+    isClicked = !isClicked;
+  }
+}); 

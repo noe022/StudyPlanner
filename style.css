@@ -34,6 +34,7 @@ body{
   width: 100%;
   max-width: 600px;
   margin: 0 auto 0;
+  margin-left: 27em;
 }
 
 #header {
@@ -49,30 +50,6 @@ body{
   color: var(--color-icy-blue-600);
   white-space: nowrap;
   margin-top: -1.1em;
-}
-
-#text-subjects{
-  margin-top: 1.4em;
-  height: 30px;
-  position: fixed;
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--color-icy-blue-600);
-  display: flex;
-  align-items: center;
-}
-
-#subjects-button {
-  margin-top: 4.5em;
-  height: 35px;
-  width: 60px;
-  border-radius: 2em;
-  border: 2px, solid rgb(177, 177, 177);
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
 }
 
 #input {
@@ -100,9 +77,9 @@ body{
 }
 
 #progress-bar {
-  margin-top: 2em;
+  margin-top: 1.5em;
   width: 100%;
-  height: 13px;
+  height: 11.5px;
   background-color: #d0d0d0;
   border-radius: 0.5em;
   display: none;
@@ -139,7 +116,7 @@ body{
 }
 
 #tasks-div {
-  margin-top: 2em;
+  margin-top: 1.5em;
 }
 
 .task-card {
@@ -167,4 +144,62 @@ body{
   cursor: pointer;
   display: flex;
   align-items: center;
+}
+
+#categories {
+  max-width: 350px;
+  width: 100%;
+}
+
+#text-subjects{
+  margin-top: 1.4em;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-icy-blue-600);
+  display: flex;
+  align-items: center;
+}
+
+#add-task {
+  margin-top: 1em;
+  height: 35px;
+  width: 60px;
+  border-radius: 2em;
+  border: 2px, solid rgb(177, 177, 177);
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#subject-input {
+  width: 270px;
+  height: 130px;
+  border-radius: 0.5em;
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+  border: 1.5px solid var(--color-icy-blue-500);
+  border-radius: 0.75em;
+  display: none;
+}
+
+#name-subject {
+  margin: 1.75em 0;
+  height: 25px;
+  width: 80%;
+  font-weight: 600;
+  border: 1.5px solid var(--color-icy-blue-500);
+  border-radius: 0.5em;
+  font-size: 9pt;
+  padding-left: 1em;
+}
+
+#name-subject:focus {
+  outline: 2px, solid var(--color-icy-blue-500);
+}
+
+#name-subject::placeholder {
+  opacity: 0.7;
 }
