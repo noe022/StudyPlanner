@@ -16,7 +16,8 @@ let firstEnter = tasksBackup.length > 0;
 const categories = document.querySelector("#categories");
 const addTask = document.querySelector("#add-task"); 
 let subjectInput = document.querySelector("#subject-input");
-
+let nameSubject = document.querySelector("#name-subject");
+let subjectsList = document.querySelector("#subjects-list");
 
 function TaskCardRemove(oneTask, taskCard){
   const copyArray = [];
@@ -113,3 +114,13 @@ addTask.addEventListener('click', function(){
     isClicked = !isClicked;
   }
 }); 
+
+nameSubject.addEventListener('keydown', function(event){
+  if (event.key === 'Enter') {
+    let subjectBubble = document.createElement('li');
+    subjectBubble.classList.add('subject-bubble');
+    subjectBubble.textContent = nameSubject.value;
+    subjectsList.appendChild(subjectBubble);
+    nameSubject.value = "";
+  }
+});
