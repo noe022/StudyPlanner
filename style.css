@@ -167,7 +167,7 @@ body{
 }
 
 #add-task {
-  height: 35px;
+  height: 45px;
   width: 60px;
   border-radius: 2em;
   border: 2px, solid var(--gray-border);
@@ -175,6 +175,7 @@ body{
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 
@@ -182,12 +183,11 @@ body{
   display: flex;
   flex-wrap: wrap;
   gap: 1em;
-
 }
 
 .subject-bubble {
-  height: 35px;
-  border-radius: 2em;
+  height: 45px;
+  border-radius: 1em;
   list-style: none;
   display: flex;
   align-items: center;
@@ -197,6 +197,22 @@ body{
   font-family: "Inter";
   color: gray;
   background-color: var(--color-icy-blue-50);
+  cursor: pointer;
+}
+
+.subject-bubble:hover {
+  min-width: 110px;
+}
+
+.bubble-icons {
+  display: none;
+}
+
+.subject-bubble:hover .bubble-icons {
+  display: flex;
+  gap: 0.4em;
+  align-items: center;
+  margin-left: 2em;
 }
 
 #subject-input {
