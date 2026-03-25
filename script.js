@@ -87,6 +87,7 @@ function createTask(oneTask) {
 if (firstEnter) {
   ProgressBar.style.display = "flex";
 }
+
 input.addEventListener('keydown', function(event){
   if(event.key === 'Enter'){
     const value = input.value.trim();
@@ -114,6 +115,20 @@ addTask.addEventListener('click', function(){
   }
 }); 
 
+function deleteSubject(icons, subjectBubble, subjectValue) {
+  icons.querySelector('.delete-bubble').addEventListener('click', function(){
+    let auxArray = [];
+    subjectsBackup.forEach(function(s) {
+      if (s !== subjectValue) {
+        auxArray.push(s);
+      }
+    });
+    subjectsBackup = auxArray;
+    localStorage.setItem("subjects", JSON.stringify(subjectsBackup));
+    subjectBubble.remove();
+  });
+}
+
 function createSubject(subjectValue) {
   const subjectBubble = document.createElement('li');
   subjectBubble.classList.add('subject-bubble');
@@ -124,9 +139,11 @@ function createSubject(subjectValue) {
   const icons = document.createElement('div');
   icons.classList.add('bubble-icons');
   icons.innerHTML = `
-  <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="gray"><path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z"/></svg>
-  <svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="gray"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
+  <svg class="edit-bubble" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="gray"><path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z"/></svg>
+  <svg class="delete-bubble" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="gray"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
   `;
+  deleteSubject(icons, subjectBubble, subjectValue);
+
   subjectBubble.appendChild(text);
   subjectBubble.appendChild(icons);
   subjectsList.appendChild(subjectBubble);
