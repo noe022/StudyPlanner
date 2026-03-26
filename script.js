@@ -22,6 +22,8 @@ let subjectsBackup = JSON.parse(localStorage.getItem("subjects")) || [];
 subjectsBackup.forEach(oneSubject => createSubject(oneSubject));
 let subjectBubble = document.querySelector(".subject-bubble");
 
+let chooseSubject = document.querySelector("#choose-subject");
+
 function TaskCardRemove(oneTask, taskCard){
   const copyArray = [];
   tasksBackup.forEach(function(t){
@@ -57,7 +59,7 @@ function createTaskText(oneTask) {
 function createDeleteButton(oneTask, taskCard) {
   const deleteTask = document.createElement('div');
   deleteTask.classList.add('delete-task');
-  deleteTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#99dbff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>';
+  deleteTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#52a5d1"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>'
   deleteTask.addEventListener('click', function() {
     if (tasksBackup.length === 1) {
       ProgressBar.style.display = "none";
@@ -66,6 +68,34 @@ function createDeleteButton(oneTask, taskCard) {
     TaskCardRemove(oneTask, taskCard);
   });
   return deleteTask;
+}
+
+function categorizeCard(oneTask) {
+  const editTask = document.createElement('div');
+  editTask.classList.add("edit-card");
+  editTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#52a5d1"><path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z"/></svg>'
+  editTask.addEventListener('click', function(){
+    if (chooseSubject.style.display === "flex") {
+      chooseSubject.style.display = "none";
+      chooseSubject.innerHTML = "";
+      return;
+    }
+
+    chooseSubject.style.display = "flex";
+    chooseSubject.innerHTML = "";
+    let categoriesList = document.createElement('li');
+    categoriesList.classList.add('list-select-subject');
+    subjectsBackup.forEach(subject => {
+      const item = document.createElement('div');
+      item.classList.add('subject-in-list');
+      const itemText = document.createElement('p');
+      itemText.textContent = subject;
+      item.appendChild(itemText);
+      categoriesList.appendChild(item);
+    });
+    chooseSubject.appendChild(categoriesList);
+  });
+  return editTask;
 }
 
 function createTask(oneTask) {
@@ -77,9 +107,11 @@ function createTask(oneTask) {
   const task = createTaskText(oneTask);
   const button = createButton(oneTask,task);
   const deleteTask = createDeleteButton(oneTask, taskCard);
+  const editTask = categorizeCard();
 
   taskCard.appendChild(button);
   taskCard.appendChild(task);
+  taskCard.appendChild(editTask);
   taskCard.appendChild(deleteTask);
   tasksDiv.appendChild(taskCard);
 }

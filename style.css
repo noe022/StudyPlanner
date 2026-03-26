@@ -14,6 +14,7 @@
 :root{
   --color-icy-blue-50: #e5f6ff;
   --color-icy-blue-100: #ccedff;
+  --color-icy-blue-150: #c6ecff;
   --color-icy-blue-200: #99dbff;
   --color-icy-blue-300: #66c9ff;
   --color-icy-blue-400: #33b8ff;
@@ -33,12 +34,13 @@ body{
 
 #layout{
   display: flex;
-  gap: 6em;
   align-items: flex-start;
   margin-top: 2em;
+  max-height: 900px;
 }
 
 #main-content {
+  height: 100%;
   width: 100%;
   max-width: 600px;
 }
@@ -145,16 +147,22 @@ body{
 }
 
 .delete-task {
-  padding-right: 1em;
-  margin-left: auto;
+  padding-right: 1.5em;
   cursor: pointer;
+  margin-left: 0.6em;
   display: flex;
   align-items: center;
 }
 
+.edit-card {
+  margin-left: auto;
+  cursor:pointer;
+}
+
 #categories {
-  max-width: 340px;
+  max-width: 273px;
   width: 100%;
+  margin-right: 10em;
 }
 
 #text-subjects{
@@ -248,4 +256,41 @@ body{
 
 #name-subject::placeholder {
   opacity: 0.7;
+}
+
+#choose-subject{
+  width: 250px;
+  min-height: 100px;
+  max-height: 200px;
+  border-radius: 0.5em;
+  gap: 1em;
+  margin-top: -2em;
+  margin-left: -21em;
+  border: 1.5px solid var(--gray-border);
+  background-color: var(--color-icy-blue-50);
+  border-radius: 0.75em;
+  opacity: 90%;
+  display: none;
+}
+
+.list-select-subject {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5em;
+  padding: 0.5em;
+}
+
+.subject-in-list {
+  height: 45px;
+  border-radius: 1em;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  padding: 0 1em;
+  font-size: 10pt;
+  font-weight: 600;
+  font-family: "Inter";
+  color: gray;
+  background-color: var(--color-icy-blue-150);
+  cursor: pointer;
 }
