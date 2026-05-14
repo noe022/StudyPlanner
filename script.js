@@ -70,17 +70,26 @@ function createDeleteButton(oneTask, taskCard) {
   return deleteTask;
 }
 
-function categorizeCard(oneTask) {
+/**
+ * Open the windows that assigns a category to a function using pencil svg
+ * Then it saves in localStorage the subject
+ */
+
+function categorizeCard(oneTask, taskCard) {
+  // Close if click outside window
   const editTask = document.createElement('div');
   editTask.classList.add("edit-card");
   editTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#52a5d1"><path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z"/></svg>'
   editTask.addEventListener('click', function(){
+    event.stopPropagation();
     if (chooseSubject.style.display === "flex") {
       chooseSubject.style.display = "none";
       chooseSubject.innerHTML = "";
       return;
     }
+    
 
+    // Print the list of categories
     chooseSubject.style.display = "flex";
     chooseSubject.innerHTML = "";
     let categoriesList = document.createElement('li');
@@ -92,23 +101,46 @@ function categorizeCard(oneTask) {
       itemText.textContent = subject;
       item.appendChild(itemText);
       categoriesList.appendChild(item);
+      
+      // Link categories to the tasks
+      item.addEventListener('click', function(){
+        // Create the bubble of the task, will be next to the text
+        let bubbleInTask = taskCard.querySelector('.bubble-in-task');
+        // Assure it doesn't exists or create it
+        if (!bubbleInTask) {
+          bubbleInTask = document.createElement('div');
+          bubbleInTask.classList.add('bubble-in-task');
+          const taskText = taskCard.querySelector('p');
+          taskText.insertAdjacentElement('afterend', bubbleInTask);
+        }
+        // Update it with new text
+        bubbleInTask.textContent = subject;
+        // Update localStorage of task with subject
+        const task = tasksBackup.find(t => t.text === oneTask.text);
+        task.subject = subject;
+        localStorage.setItem("tasks", JSON.stringify(tasksBackup));
+      });
     });
     chooseSubject.appendChild(categoriesList);
   });
   return editTask;
 }
 
+/**
+ * Adds a new category to the list, on the left side
+*/
+
 function createTask(oneTask) {
   if (oneTask.text.trim() === "") return;
 
   const taskCard = document.createElement('li');
   taskCard.classList.add('task-card');
-
+  
   const task = createTaskText(oneTask);
   const button = createButton(oneTask,task);
   const deleteTask = createDeleteButton(oneTask, taskCard);
-  const editTask = categorizeCard();
-
+  const editTask = categorizeCard(oneTask, taskCard);
+  
   taskCard.appendChild(button);
   taskCard.appendChild(task);
   taskCard.appendChild(editTask);
@@ -138,6 +170,7 @@ input.addEventListener('keydown', function(event){
 
 let isClicked = false;
 addTask.addEventListener('click', function(){
+  event.stopPropagation();
   if (!isClicked) {
     subjectInput.style.display = "flex";
     isClicked = !isClicked;
@@ -164,10 +197,10 @@ function deleteSubject(icons, subjectBubble, subjectValue) {
 function createSubject(subjectValue) {
   const subjectBubble = document.createElement('li');
   subjectBubble.classList.add('subject-bubble');
-
+  
   const text = document.createElement('span');
   subjectBubble.textContent = subjectValue;
-
+  
   const icons = document.createElement('div');
   icons.classList.add('bubble-icons');
   icons.innerHTML = `
@@ -175,7 +208,7 @@ function createSubject(subjectValue) {
   <svg class="delete-bubble" xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="gray"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg>
   `;
   deleteSubject(icons, subjectBubble, subjectValue);
-
+  
   subjectBubble.appendChild(text);
   subjectBubble.appendChild(icons);
   subjectsList.appendChild(subjectBubble);
@@ -194,4 +227,19 @@ nameSubject.addEventListener('keydown', function(event){
 
 logo.addEventListener('click', function(){
   location.reload();
+});
+
+document.addEventListener('click', function(event) {
+  if (!subjectInput.contains(event.target)) {
+    subjectInput.style.display = "none";
+    // Delete previous list, so it doesn't repeat
+  }
+});
+
+document.addEventListener('click', function(event) {
+  if (!chooseSubject.contains(event.target)) {
+    chooseSubject.style.display = "none";
+    // Delete previous list, so it doesn't repeat
+    chooseSubject.innerHTML = "";
+  }
 });
