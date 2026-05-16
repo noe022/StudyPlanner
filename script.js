@@ -2,8 +2,8 @@
  * Task Manager with Categories & Views
  * 
  * @author Noelia Pérez Mojica
- * @version 0.3
- * @date 18/03/2026
+ * @version 0.4
+ * @date 16/05/2026
 */
 
 const input = document.querySelector("#input input");
@@ -12,9 +12,9 @@ const logo = document.querySelector("#logo");
 const ProgressBar = document.querySelector("#progress-bar");
 let tasksBackup = JSON.parse(localStorage.getItem("tasks")) || [];
 tasksBackup.forEach(oneTask => createTask(oneTask));
-let firstEnter = tasksBackup.length > 0;
+let firstEnter = tasksBackup.length > 0; //Boolean if there are tasks = true, else false
 const categories = document.querySelector("#categories");
-const addTask = document.querySelector("#add-task"); 
+const addSubject = document.querySelector("#add-task"); 
 let subjectInput = document.querySelector("#subject-input");
 let nameSubject = document.querySelector("#name-subject");
 let subjectsList = document.querySelector("#subjects-list");
@@ -24,6 +24,9 @@ let subjectBubble = document.querySelector(".subject-bubble");
 
 let chooseSubject = document.querySelector("#choose-subject");
 
+/**
+ * Deletes a task and updates localStorage
+ */
 function TaskCardRemove(oneTask, taskCard){
   const copyArray = [];
   tasksBackup.forEach(function(t){
@@ -36,6 +39,11 @@ function TaskCardRemove(oneTask, taskCard){
   taskCard.remove();
 }
 
+
+/**
+ * Creates the dynamic element "button"
+ * This button handles wether a tasks has been completed
+ */
 function createButton(oneTask, task) {
   const button = document.createElement('button');
   button.classList.add('button');
@@ -49,6 +57,10 @@ function createButton(oneTask, task) {
   return button;
 }
 
+
+/**
+ * Creates the dynamic element text of the taskCard
+ */
 function createTaskText(oneTask) {
   const task = document.createElement('p');
   task.textContent = oneTask.text;
@@ -56,6 +68,11 @@ function createTaskText(oneTask) {
   return task;
 }
 
+
+/**
+ * Creates a dynamic element delete button
+ * Used with an eventListener, that calls TaskCardRemove
+ */
 function createDeleteButton(oneTask, taskCard) {
   const deleteTask = document.createElement('div');
   deleteTask.classList.add('delete-task');
@@ -70,11 +87,11 @@ function createDeleteButton(oneTask, taskCard) {
   return deleteTask;
 }
 
-/**
- * Open the windows that assigns a category to a function using pencil svg
- * Then it saves in localStorage the subject
- */
 
+/**
+ * Open the windows that assigns a subject to a task using pencil svg
+ * Then it's saved in localStorage
+ */
 function categorizeCard(oneTask, taskCard) {
   // Close if click outside window
   const editTask = document.createElement('div');
@@ -87,8 +104,8 @@ function categorizeCard(oneTask, taskCard) {
       chooseSubject.innerHTML = "";
       return;
     }
-    
 
+    
     // Print the list of categories
     chooseSubject.style.display = "flex";
     chooseSubject.innerHTML = "";
@@ -126,10 +143,10 @@ function categorizeCard(oneTask, taskCard) {
   return editTask;
 }
 
-/**
- * Adds a new category to the list, on the left side
-*/
 
+/**
+ * Creates a new task, and its buttons (text, add a subject, close, completed)
+*/
 function createTask(oneTask) {
   if (oneTask.text.trim() === "") return;
 
@@ -148,10 +165,20 @@ function createTask(oneTask) {
   tasksDiv.appendChild(taskCard);
 }
 
+
+/**
+ * If it's true that exists tasks (on localStorage) the progress bar is uploaded
+ * USEFUL when the page is reloaded, or NOT OPENED fot the first time
+*/
 if (firstEnter) {
   ProgressBar.style.display = "flex";
 }
 
+
+/**
+ * We write our task and it listens when we press "enter"
+ * The input is extracted and added to localStorage, then the task is created
+*/
 input.addEventListener('keydown', function(event){
   if(event.key === 'Enter'){
     const value = input.value.trim();
@@ -161,15 +188,23 @@ input.addEventListener('keydown', function(event){
     localStorage.setItem("tasks", JSON.stringify(tasksBackup));
     createTask(valueBool);
     input.value = "";
+    // There aren't any task, so progress bar is not showed until now
+    // USEFUL when we create the first task
+    // let firstEnter = tasksBackup.length > 0; Then is false right now
     if(!firstEnter) {
       ProgressBar.style.display = "flex";
     }
+    // Uploaded, for reload procedure
     firstEnter = true;
   }
 });
 
+
+/**
+ * If the plus icon is clicked, it will open the window for input a new subject
+ */
 let isClicked = false;
-addTask.addEventListener('click', function(){
+addSubject.addEventListener('click', function(){
   event.stopPropagation();
   if (!isClicked) {
     subjectInput.style.display = "flex";
@@ -178,8 +213,12 @@ addTask.addEventListener('click', function(){
     subjectInput.style.display = "none";
     isClicked = !isClicked;
   }
-}); 
+});
 
+
+/**
+ * If the cross icon is clicked, deletes its bubble
+*/
 function deleteSubject(icons, subjectBubble, subjectValue) {
   icons.querySelector('.delete-bubble').addEventListener('click', function(){
     let auxArray = [];
@@ -193,6 +232,12 @@ function deleteSubject(icons, subjectBubble, subjectValue) {
     subjectBubble.remove();
   });
 }
+
+/**
+ * Creates the list of subjects
+ * Each subjectBubble, has a text, and icons
+ * Two incons: close and edit
+*/
 
 function createSubject(subjectValue) {
   const subjectBubble = document.createElement('li');
@@ -214,6 +259,11 @@ function createSubject(subjectValue) {
   subjectsList.appendChild(subjectBubble);
 }
 
+
+/**
+ * Process the name of the subject that comes from input,
+ * creates a bubble for it, and uploads it to localStorage
+*/
 nameSubject.addEventListener('keydown', function(event){
   if (event.key === 'Enter') {
     const subjectValue = nameSubject.value;
@@ -225,10 +275,19 @@ nameSubject.addEventListener('keydown', function(event){
   }
 });
 
+
+/**
+ * If we click the logo, reload the website
+*/
 logo.addEventListener('click', function(){
   location.reload();
 });
 
+
+/**
+ * Click outside the window close it
+ * Window that declares a new subject
+*/
 document.addEventListener('click', function(event) {
   if (!subjectInput.contains(event.target)) {
     subjectInput.style.display = "none";
@@ -236,6 +295,11 @@ document.addEventListener('click', function(event) {
   }
 });
 
+
+/**
+ * Click outside the window close it
+ * Window that choose the subject
+*/
 document.addEventListener('click', function(event) {
   if (!chooseSubject.contains(event.target)) {
     chooseSubject.style.display = "none";
