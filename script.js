@@ -160,6 +160,12 @@ function createTask(oneTask) {
   
   taskCard.appendChild(button);
   taskCard.appendChild(task);
+  if (oneTask.subject) {
+    let tempSubject = document.createElement('div');
+    tempSubject.textContent = oneTask.subject;
+    tempSubject.classList.add('bubble-in-task');
+    taskCard.appendChild(tempSubject);
+  }
   taskCard.appendChild(editTask);
   taskCard.appendChild(deleteTask);
   tasksDiv.appendChild(taskCard);
