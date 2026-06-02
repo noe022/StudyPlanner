@@ -2,8 +2,8 @@
  * Task Manager with Categories & Views
  * 
  * @author Noelia Pérez Mojica
- * @version 0.4
- * @date 16/05/2026
+ * @version 0.7
+ * @date 02/06/2026
 */
 
 const input = document.querySelector("#input input");
@@ -21,6 +21,7 @@ let nameSubject = document.querySelector("#name-subject");
 let subjectsList = document.querySelector("#subjects-list");
 let subjectsBackup = JSON.parse(localStorage.getItem("subjects")) || [];
 subjectsBackup.forEach(oneSubject => createSubject(oneSubject));
+let secondEnter = subjectsBackup.length > 0;
 const clearSubjects = document.querySelector("#clear-subjects");
 let subjectBubble = document.querySelector(".subject-bubble");
 // Windows to link a subject to a task
@@ -202,6 +203,13 @@ if (firstEnter) {
   clearTasks.style.display = "flex";
 }
 
+/**
+ * If it's true that exists a subject (on localStorage) the clearTasks button is uploaded
+ */
+if (secondEnter) {
+  clearSubjects.style.display = "flex";
+}
+
 
 /**
  * We write our task and it listens when we press "enter"
@@ -301,6 +309,11 @@ nameSubject.addEventListener('keydown', function(event){
     subjectsBackup.push(subjectValue);
     localStorage.setItem("subjects", JSON.stringify(subjectsBackup));
     nameSubject.value = "";
+    // Opens clearSubject windows
+    if (!secondEnter) {
+      clearSubjects.style.display = "flex";
+    }
+    secondEnter = true;
   }
 });
 
@@ -354,6 +367,9 @@ clearTasks.addEventListener('click', function() {
 */
 clearSubjects.addEventListener('click', function() {
   subjectsBackup = [];
+  secondEnter = false;
+  isClicked = false;
   localStorage.removeItem("subjects");
   subjectsList.querySelectorAll(".subject-bubble").forEach(b => b.remove());
+  clearSubjects.style.display = "none";
 });
