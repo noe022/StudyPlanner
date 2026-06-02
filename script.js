@@ -21,6 +21,7 @@ let nameSubject = document.querySelector("#name-subject");
 let subjectsList = document.querySelector("#subjects-list");
 let subjectsBackup = JSON.parse(localStorage.getItem("subjects")) || [];
 subjectsBackup.forEach(oneSubject => createSubject(oneSubject));
+const clearSubjects = document.querySelector("#clear-subjects");
 let subjectBubble = document.querySelector(".subject-bubble");
 // Windows to link a subject to a task
 let chooseSubject = document.querySelector("#choose-subject");
@@ -346,4 +347,13 @@ clearTasks.addEventListener('click', function() {
   tasksDiv.innerHTML = "";
   ProgressBar.style.display = "none";
   clearTasks.style.display = "none";
+});
+
+/**
+ * Clear all subjects, also from local storage
+*/
+clearSubjects.addEventListener('click', function() {
+  subjectsBackup = [];
+  localStorage.removeItem("subjects");
+  subjectsList.querySelectorAll(".subject-bubble").forEach(b => b.remove());
 });
