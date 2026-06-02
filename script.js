@@ -10,6 +10,7 @@ const input = document.querySelector("#input input");
 const tasksDiv = document.querySelector("#tasks-div");
 const logo = document.querySelector("#logo");
 const ProgressBar = document.querySelector("#progress-bar");
+const clearTasks = document.querySelector("#clear-tasks");
 let tasksBackup = JSON.parse(localStorage.getItem("tasks")) || [];
 tasksBackup.forEach(oneTask => createTask(oneTask));
 let firstEnter = tasksBackup.length > 0; //Boolean if there are tasks = true, else false
@@ -21,7 +22,7 @@ let subjectsList = document.querySelector("#subjects-list");
 let subjectsBackup = JSON.parse(localStorage.getItem("subjects")) || [];
 subjectsBackup.forEach(oneSubject => createSubject(oneSubject));
 let subjectBubble = document.querySelector(".subject-bubble");
-
+// Windows to link a subject to a task
 let chooseSubject = document.querySelector("#choose-subject");
 
 /**
@@ -80,6 +81,7 @@ function createDeleteButton(oneTask, taskCard) {
   deleteTask.addEventListener('click', function() {
     if (tasksBackup.length === 1) {
       ProgressBar.style.display = "none";
+      clearTasks.style.display = "none";
       firstEnter = false;
     }
     TaskCardRemove(oneTask, taskCard);
@@ -87,58 +89,76 @@ function createDeleteButton(oneTask, taskCard) {
   return deleteTask;
 }
 
+/**
+ * Assigns the subjects in bubbles to a task, by cliking edit svg
+*/
+function assignSubject(item, taskCard, subject, oneTask) {
+  // Link categories to the tasks
+  item.addEventListener('click', function(){
+    // Create the bubble of the task, will be next to the text
+    let bubbleInTask = taskCard.querySelector('.bubble-in-task');
+    // Assure it doesn't exists or create it
+    if (!bubbleInTask) {
+      bubbleInTask = document.createElement('div');
+      bubbleInTask.classList.add('bubble-in-task');
+      const taskText = taskCard.querySelector('p');
+      taskText.insertAdjacentElement('afterend', bubbleInTask);
+    }
+    // Update it with new text
+    bubbleInTask.textContent = subject;
+    // Update localStorage of task with subject
+    const task = tasksBackup.find(t => t.text === oneTask.text);
+    task.subject = subject;
+    localStorage.setItem("tasks", JSON.stringify(tasksBackup));
+  });
+}
 
 /**
- * Open the windows that assigns a subject to a task using pencil svg
+ * Creates bubbles of subjects inside windows of edit svg
+ * and then allows linking one bubble to a task
+*/
+function createBubble(categoriesList, taskCard, oneTask) {
+  subjectsBackup.forEach(subject => {
+    const item = document.createElement('div');
+    item.classList.add('subject-in-list');
+    const itemText = document.createElement('p');
+    itemText.textContent = subject;
+    item.appendChild(itemText);
+    categoriesList.appendChild(item);
+    assignSubject(item, taskCard, subject, oneTask);
+  });
+  chooseSubject.appendChild(categoriesList);
+}
+
+/**
+ * Open the windows, then creates de subjects bubbles,
+ * and allows linking one to a task
+ * 
+ * Uses pencil svg
  * Then it's saved in localStorage
  */
 function categorizeCard(oneTask, taskCard) {
-  // Close if click outside window
   const editTask = document.createElement('div');
   editTask.classList.add("edit-card");
   editTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#52a5d1"><path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z"/></svg>'
   editTask.addEventListener('click', function(){
     event.stopPropagation();
+    // Behavior to open the window if pencil is clicked
+    // And close it if pencil is clicked
     if (chooseSubject.style.display === "flex") {
       chooseSubject.style.display = "none";
       chooseSubject.innerHTML = "";
       return;
     }
-
     
-    // Print the list of categories
+    // Show windows to choose a subject and reset it
     chooseSubject.style.display = "flex";
     chooseSubject.innerHTML = "";
+    // Create the list of subjects inside, with text
     let categoriesList = document.createElement('li');
     categoriesList.classList.add('list-select-subject');
-    subjectsBackup.forEach(subject => {
-      const item = document.createElement('div');
-      item.classList.add('subject-in-list');
-      const itemText = document.createElement('p');
-      itemText.textContent = subject;
-      item.appendChild(itemText);
-      categoriesList.appendChild(item);
-      
-      // Link categories to the tasks
-      item.addEventListener('click', function(){
-        // Create the bubble of the task, will be next to the text
-        let bubbleInTask = taskCard.querySelector('.bubble-in-task');
-        // Assure it doesn't exists or create it
-        if (!bubbleInTask) {
-          bubbleInTask = document.createElement('div');
-          bubbleInTask.classList.add('bubble-in-task');
-          const taskText = taskCard.querySelector('p');
-          taskText.insertAdjacentElement('afterend', bubbleInTask);
-        }
-        // Update it with new text
-        bubbleInTask.textContent = subject;
-        // Update localStorage of task with subject
-        const task = tasksBackup.find(t => t.text === oneTask.text);
-        task.subject = subject;
-        localStorage.setItem("tasks", JSON.stringify(tasksBackup));
-      });
-    });
-    chooseSubject.appendChild(categoriesList);
+
+    createBubble(categoriesList, taskCard, oneTask);
   });
   return editTask;
 }
@@ -178,6 +198,7 @@ function createTask(oneTask) {
 */
 if (firstEnter) {
   ProgressBar.style.display = "flex";
+  clearTasks.style.display = "flex";
 }
 
 
@@ -199,6 +220,7 @@ input.addEventListener('keydown', function(event){
     // let firstEnter = tasksBackup.length > 0; Then is false right now
     if(!firstEnter) {
       ProgressBar.style.display = "flex";
+      clearTasks.style.display = "flex";
     }
     // Uploaded, for reload procedure
     firstEnter = true;
@@ -312,4 +334,16 @@ document.addEventListener('click', function(event) {
     // Delete previous list, so it doesn't repeat
     chooseSubject.innerHTML = "";
   }
+});
+
+/**
+ * Clear all tasks, also from local storage
+*/
+clearTasks.addEventListener('click', function() {
+  tasksBackup = [];
+  firstEnter = false;
+  localStorage.removeItem("tasks");
+  tasksDiv.innerHTML = "";
+  ProgressBar.style.display = "none";
+  clearTasks.style.display = "none";
 });

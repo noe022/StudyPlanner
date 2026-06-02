@@ -24,6 +24,8 @@
   --color-icy-blue-800: #004266;
   --color-icy-blue-900: #002133;
   --color-icy-blue-950: #001724;
+  --orange: #ffdacc;
+  --dark-orange: #eb9880;
   --gray-border: rgb(177, 177, 177);
 }
 
@@ -35,7 +37,7 @@ body{
 #layout{
   display: flex;
   align-items: flex-start;
-  margin-top: 2em;
+  margin-top: 1.5em;
   max-height: 900px;
 }
 
@@ -123,7 +125,7 @@ body{
 }
 
 #tasks-div {
-  margin-top: 1.5em;
+  margin-top: 1.25em;
 }
 
 .task-card {
@@ -308,4 +310,22 @@ body{
   color: gray;
   background-color: var(--color-icy-blue-150);
   margin-left: 1.25em;
+}
+
+#clear-tasks{
+  height: 30px;
+  width: 7em;
+  margin-top: 1.25em;
+  padding: 0 1em;
+  font-size: 10pt;
+  font-weight: 600;
+  font-family: "Inter";
+  border-radius: 0.7em;
+  color: var(--dark-orange);
+  background-color: var(--orange);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  display: none;
 }
