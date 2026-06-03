@@ -98,13 +98,13 @@ function assignSubject(item, taskCard, subject, oneTask) {
   // Link categories to the tasks
   item.addEventListener('click', function(){
     // Create the bubble of the task, will be next to the text
-    let bubbleInTask = taskCard.querySelector('.bubble-in-task');
+    const container = taskCard.querySelector('.docker-txt-sub-but');
+    let bubbleInTask = container.querySelector('.bubble-in-task');
     // Assure it doesn't exists or create it
     if (!bubbleInTask) {
       bubbleInTask = document.createElement('div');
       bubbleInTask.classList.add('bubble-in-task');
-      const taskText = taskCard.querySelector('p');
-      taskText.insertAdjacentElement('afterend', bubbleInTask);
+      container.appendChild(bubbleInTask);
     }
     // Update it with new text
     bubbleInTask.textContent = subject;
@@ -142,7 +142,7 @@ function createBubble(categoriesList, taskCard, oneTask) {
 function categorizeCard(oneTask, taskCard) {
   const editTask = document.createElement('div');
   editTask.classList.add("edit-card");
-  editTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#52a5d1"><path d="M186.67-186.67H235L680-631l-48.33-48.33-445 444.33v48.33ZM120-120v-142l559.33-558.33q9.34-9 21.5-14 12.17-5 25.5-5 12.67 0 25 5 12.34 5 22 14.33L821-772q10 9.67 14.5 22t4.5 24.67q0 12.66-4.83 25.16-4.84 12.5-14.17 21.84L262-120H120Zm652.67-606-46-46 46 46Zm-117 71-24-24.33L680-631l-24.33-24Z"/></svg>'
+  editTask.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="28px" fill="#52a5d1"><path d="M446.67-446.67H200v-66.66h246.67V-760h66.66v246.67H760v66.66H513.33V-200h-66.66v-246.67Z"/></svg>'
   editTask.addEventListener('click', function(){
     event.stopPropagation();
     // Behavior to open the window if pencil is clicked
@@ -175,21 +175,31 @@ function createTask(oneTask) {
   const taskCard = document.createElement('li');
   taskCard.classList.add('task-card');
   
+  const dockerDelEdit = document.createElement('div');
+  dockerDelEdit.classList.add('docker-del-edit');
+
+  const DockerTextSubBut = document.createElement('div');
+  DockerTextSubBut.classList.add('docker-txt-sub-but');
+
   const task = createTaskText(oneTask);
   const button = createButton(oneTask,task);
   const deleteTask = createDeleteButton(oneTask, taskCard);
   const editTask = categorizeCard(oneTask, taskCard);
-  
-  taskCard.appendChild(button);
-  taskCard.appendChild(task);
+
+  DockerTextSubBut.appendChild(button);
+  DockerTextSubBut.appendChild(task);
+
   if (oneTask.subject) {
     let tempSubject = document.createElement('div');
     tempSubject.textContent = oneTask.subject;
     tempSubject.classList.add('bubble-in-task');
-    taskCard.appendChild(tempSubject);
+    DockerTextSubBut.appendChild(tempSubject);
   }
-  taskCard.appendChild(editTask);
-  taskCard.appendChild(deleteTask);
+
+  dockerDelEdit.appendChild(editTask);
+  dockerDelEdit.appendChild(deleteTask);
+  taskCard.appendChild(DockerTextSubBut);
+  taskCard.appendChild(dockerDelEdit);
   tasksDiv.appendChild(taskCard);
 }
 
@@ -280,7 +290,6 @@ function createSubject(subjectValue) {
   const subjectBubble = document.createElement('li');
   subjectBubble.classList.add('subject-bubble');
   
-  const text = document.createElement('span');
   subjectBubble.textContent = subjectValue;
   
   const icons = document.createElement('div');
@@ -291,7 +300,6 @@ function createSubject(subjectValue) {
   `;
   deleteSubject(icons, subjectBubble, subjectValue);
   
-  subjectBubble.appendChild(text);
   subjectBubble.appendChild(icons);
   subjectsList.appendChild(subjectBubble);
 }

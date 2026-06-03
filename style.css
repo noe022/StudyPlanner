@@ -129,6 +129,8 @@ body{
 }
 
 .task-card {
+  min-height: 50px;
+  height: auto;
   margin-bottom: 1.5em;
   padding-left: 1em;
   height: 50px;
@@ -148,16 +150,7 @@ body{
   font-weight: 600;
 }
 
-.delete-task {
-  padding-right: 1.5em;
-  cursor: pointer;
-  margin-left: 0.6em;
-  display: flex;
-  align-items: center;
-}
-
 .edit-card {
-  margin-left: auto;
   cursor:pointer;
 }
 
@@ -165,6 +158,24 @@ body{
   max-width: 273px;
   width: 100%;
   margin-right: 10em;
+}
+
+.docker-del-edit {
+  height: 32px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1em;
+}
+
+.docker-txt-sub-but {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+  gap: 0;
 }
 
 #text-subjects{
